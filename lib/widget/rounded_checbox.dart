@@ -3,20 +3,25 @@ import 'package:flutter/material.dart';
 class RoundedCheckbox extends StatelessWidget {
   final bool value;
   final Function onChanged;
+  final bool isDarkMode;
 
-  const RoundedCheckbox({Key key, this.value, this.onChanged});
+  const RoundedCheckbox({Key key, this.value, this.onChanged, this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
+    final borderColorDark = !value ? Colors.white : Colors.deepOrangeAccent;
+    final borderColorLight = !value ? Colors.black : Colors.lightBlue;
+    final borderColor = isDarkMode ? borderColorDark : borderColorLight;
+
+    final checkedBackground = isDarkMode ? Colors.deepOrangeAccent : Colors.lightBlue;
+
     return GestureDetector(
       onTap: onChanged,
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: !value
-              ? Border.all(color: Colors.white)
-              : Border.all(color: Colors.transparent),
-          color: value ? Colors.deepOrangeAccent : null,
+          border: Border.all(color: borderColor),
+          color: value ? checkedBackground : null,
         ),
         child: Container(
           width: 25,
