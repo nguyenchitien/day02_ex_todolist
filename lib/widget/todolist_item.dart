@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/models/todo_list_model.dart';
+import 'package:flutter_day2_ex/res/global_configurations.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/rounded_checbox.dart';
 
@@ -7,12 +8,10 @@ class TodoListItem extends StatefulWidget {
   const TodoListItem({
     Key key,
     @required this.todo,
-    @required this.isDarkMode,
-    this.onCompletedTaskCallback,
+    @required this.onCompletedTaskCallback,
   }) : super(key: key);
 
   final TodoListModel todo;
-  final bool isDarkMode;
   final CompletedTaskCallback onCompletedTaskCallback;
 
   @override
@@ -38,6 +37,8 @@ class _TodoListItemState extends State<TodoListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = GlobalConfigurations.isDarkMode;
+
     // TODO: Need refactor colors with ThemData
     final textDecoration = isChecked ? TextDecoration.lineThrough : null;
     final backgroundColorDark = isChecked ? Colors.black26 : Colors.black;
@@ -45,11 +46,10 @@ class _TodoListItemState extends State<TodoListItem> {
 
     final borderColorLight =
         isChecked ? Colors.grey.withOpacity(0) : Colors.transparent;
-    final borderColor =
-        widget.isDarkMode ? Colors.transparent : borderColorLight;
+    final borderColor = isDarkMode ? Colors.transparent : borderColorLight;
 
     var shadowColor;
-    if (widget.isDarkMode) {
+    if (isDarkMode) {
       shadowColor = Colors.black.withOpacity(0.2);
     } else {
       shadowColor = isChecked
@@ -61,7 +61,7 @@ class _TodoListItemState extends State<TodoListItem> {
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       decoration: BoxDecoration(
-        color: widget.isDarkMode ? backgroundColorDark : backgroundColorLight,
+        color: isDarkMode ? backgroundColorDark : backgroundColorLight,
         borderRadius: BorderRadius.circular(50),
         border: Border.all(color: borderColor),
         boxShadow: [
@@ -79,10 +79,7 @@ class _TodoListItemState extends State<TodoListItem> {
             widget.todo.title,
             style: TextStyle(fontSize: 16, decoration: textDecoration),
           ),
-          RoundedCheckbox(
-              value: isChecked,
-              onChanged: _onChecked,
-              isDarkMode: widget.isDarkMode),
+          RoundedCheckbox(value: isChecked, onChanged: _onChecked),
         ],
       ),
     );

@@ -5,14 +5,12 @@ import 'package:flutter_day2_ex/widget/todolist_item.dart';
 
 class ListTasks extends StatefulWidget {
   final List<TodoListModel> todoLists;
-  final bool isDarkMode;
   final CompletedTaskCallback onCompletedTaskCallBack;
 
   const ListTasks(
       {Key key,
       @required this.todoLists,
-      @required this.isDarkMode,
-      this.onCompletedTaskCallBack})
+      @required this.onCompletedTaskCallBack})
       : super(key: key);
 
   @override
@@ -44,7 +42,6 @@ class _ListTasksState extends State<ListTasks> {
             return TodoListItem(
               key: UniqueKey(),
               todo: todo,
-              isDarkMode: widget.isDarkMode,
               onCompletedTaskCallback: widget.onCompletedTaskCallBack,
             );
           },

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_day2_ex/res/global_configurations.dart';
 
 class RoundedCheckbox extends StatelessWidget {
   final bool value;
   final Function onChanged;
-  final bool isDarkMode;
 
-  const RoundedCheckbox({Key key, this.value, this.onChanged, this.isDarkMode});
+  const RoundedCheckbox({Key key, this.value, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = GlobalConfigurations.isDarkMode;
+
     final borderColorDark = !value ? Colors.white : Colors.deepOrangeAccent;
     final borderColorLight = !value ? Colors.black : Colors.lightBlue;
     final borderColor = isDarkMode ? borderColorDark : borderColorLight;
 
-    final checkedBackground = isDarkMode ? Colors.deepOrangeAccent : Colors.lightBlue;
+    final checkedBackground =
+        isDarkMode ? Colors.deepOrangeAccent : Colors.lightBlue;
 
     return GestureDetector(
       onTap: onChanged,

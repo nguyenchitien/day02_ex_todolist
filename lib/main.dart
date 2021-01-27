@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_day2_ex/res/global_configurations.dart';
 import 'package:flutter_day2_ex/ui/todolist_page.dart';
 import 'package:flutter_day2_ex/widget/rounded_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,10 +15,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = true;
+  // bool isDarkMode = true;
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = GlobalConfigurations.isDarkMode;
+
     // TODO: Issue systemNavigationBarColor Android
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -33,8 +36,8 @@ class _MyAppState extends State<MyApp> {
       backgroundColor:
           isDarkMode ? ThemeData.dark().backgroundColor : Colors.white,
       buttonColor: isDarkMode ? Color(0xff3B3B3B) : Color(0xffF1F5FB),
-      textSelectionColor: isDarkMode ? Colors.white : Colors.black,
-      cardColor: isDarkMode ? Color(0xFF151515) : Colors.white,
+      // textSelectionColor: isDarkMode ? Colors.white : Colors.black,
+      // cardColor: isDarkMode ? Color(0xFF151515) : Colors.white,
       canvasColor: isDarkMode ? ThemeData.dark().canvasColor : Colors.white,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       appBarTheme: AppBarTheme(
@@ -56,7 +59,7 @@ class _MyAppState extends State<MyApp> {
             RoundedIconButton(
               onPressed: () {
                 setState(() {
-                  isDarkMode = !isDarkMode;
+                  GlobalConfigurations.isDarkMode = !isDarkMode;
                 });
               },
               color: isDarkMode ? Colors.deepPurple : Colors.black87,
@@ -70,7 +73,7 @@ class _MyAppState extends State<MyApp> {
             SizedBox(width: 8),
           ],
         ),
-        body: TodoListPage(isDarkMode: isDarkMode),
+        body: TodoListPage(),
       ),
     );
   }
