@@ -29,9 +29,7 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: isDarkMode ? Colors.black : Colors.white,
-        systemNavigationBarIconBrightness:
-            isDarkMode ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
       ),
     );
 
@@ -43,7 +41,8 @@ class _MyAppState extends State<MyApp> {
       textSelectionColor: isDarkMode ? Colors.white : Colors.black,
       cardColor: isDarkMode ? Color(0xFF151515) : Colors.white,
       canvasColor: isDarkMode ? ThemeData.dark().canvasColor : Colors.white,
-      brightness: isDarkMode ? Brightness.dark : Brightness.light,
+      brightness:
+          GlobalConfigurations.isDarkMode ? Brightness.dark : Brightness.light,
       appBarTheme: AppBarTheme(
         elevation: 0.0,
         color: Colors.transparent,
