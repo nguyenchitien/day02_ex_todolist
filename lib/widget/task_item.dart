@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_day2_ex/models/todo_list_model.dart';
+import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/global_configurations.dart';
+import 'package:flutter_day2_ex/utils/callbacks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/rounded_checbox.dart';
 
-class TodoListItem extends StatefulWidget {
-  const TodoListItem({
+class TaskItem extends StatefulWidget {
+  const TaskItem({
     Key key,
-    @required this.todo,
+    @required this.task,
     @required this.onCompletedTaskCallback,
   }) : super(key: key);
 
-  final TodoListModel todo;
+  final TaskModel task;
   final CompletedTaskCallback onCompletedTaskCallback;
 
   @override
-  _TodoListItemState createState() => _TodoListItemState();
+  _TaskItemState createState() => _TaskItemState();
 }
 
-class _TodoListItemState extends State<TodoListItem> {
+class _TaskItemState extends State<TaskItem> {
   bool isChecked;
 
   @override
   void initState() {
     super.initState();
 
-    isChecked = widget.todo.isCompleted;
+    isChecked = widget.task.isCompleted;
   }
 
   void _onChecked() {
     setState(() {
       isChecked = !isChecked;
-      widget.onCompletedTaskCallback(widget.todo, isChecked);
+      widget.onCompletedTaskCallback(widget.task, isChecked);
     });
   }
 
@@ -76,7 +77,7 @@ class _TodoListItemState extends State<TodoListItem> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            widget.todo.title,
+            widget.task.title,
             style: TextStyle(fontSize: 16, decoration: textDecoration),
           ),
           RoundedCheckbox(value: isChecked, onChanged: _onChecked),

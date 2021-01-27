@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_day2_ex/mock_data/mock_data.dart';
-import 'package:flutter_day2_ex/models/todo_list_model.dart';
+import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/filter_modes.dart';
-import 'package:flutter_day2_ex/res/global_configurations.dart';
 import 'package:flutter_day2_ex/ui/list_tasks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/filter_tabs.dart';
@@ -39,33 +38,31 @@ class _TodoListPageState extends State<TodoListPage> {
 
   _refreshCurrTasks(FilterMode filterMode) {
     if (filterMode == FilterMode.active) {
-      currTasks = originTasks.where((todo) => !todo.isCompleted).toList();
+      currTasks = originTasks.where((task) => !task.isCompleted).toList();
     } else if (filterMode == FilterMode.completed) {
-      currTasks = originTasks.where((todo) => todo.isCompleted).toList();
+      currTasks = originTasks.where((task) => task.isCompleted).toList();
     } else {
       currTasks = originTasks;
     }
   }
 
-  _handleCompletedTodoList(TodoListModel todo, bool isCompleted) {
+  _handleCompletedTask(TaskModel task, bool isCompleted) {
     if (currFilterMode != FilterMode.all) {
       setState(() {
-        int index = originTasks.indexOf(todo);
-        todo.completed = isCompleted;
-        originTasks[index] = todo;
+        int index = originTasks.indexOf(task);
+        task.completed = isCompleted;
+        originTasks[index] = task;
         _refreshCurrTasks(currFilterMode);
       });
     } else {
-      int index = originTasks.indexOf(todo);
-      todo.completed = isCompleted;
-      originTasks[index] = todo;
+      int index = originTasks.indexOf(task);
+      task.completed = isCompleted;
+      originTasks[index] = task;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = GlobalConfigurations.isDarkMode;
-
     return Column(
       children: [
         SizedBox(height: 16),
@@ -76,8 +73,8 @@ class _TodoListPageState extends State<TodoListPage> {
         ),
         SizedBox(height: 16),
         ListTasks(
-          todoLists: currTasks,
-          onCompletedTaskCallBack: _handleCompletedTodoList,
+          tasks: currTasks,
+          onCompletedTaskCallBack: _handleCompletedTask,
         ),
       ],
     );

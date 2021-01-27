@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_day2_ex/models/todo_list_model.dart';
+import 'package:flutter_day2_ex/models/task_model.dart';
+import 'package:flutter_day2_ex/utils/callbacks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
-import 'package:flutter_day2_ex/widget/todolist_item.dart';
+import 'package:flutter_day2_ex/widget/task_item.dart';
 
 class ListTasks extends StatefulWidget {
-  final List<TodoListModel> todoLists;
+  final List<TaskModel> tasks;
   final CompletedTaskCallback onCompletedTaskCallBack;
 
   const ListTasks(
-      {Key key,
-      @required this.todoLists,
-      @required this.onCompletedTaskCallBack})
+      {Key key, @required this.tasks, @required this.onCompletedTaskCallBack})
       : super(key: key);
 
   @override
@@ -20,7 +19,7 @@ class ListTasks extends StatefulWidget {
 class _ListTasksState extends State<ListTasks> {
   @override
   Widget build(BuildContext context) {
-    if (widget.todoLists.length == 0) {
+    if (widget.tasks.length == 0) {
       final height = MediaQuery.of(context).size.height / 2;
 
       return Container(
@@ -38,14 +37,14 @@ class _ListTasksState extends State<ListTasks> {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final todo = widget.todoLists[index];
-            return TodoListItem(
+            final task = widget.tasks[index];
+            return TaskItem(
               key: UniqueKey(),
-              todo: todo,
+              task: task,
               onCompletedTaskCallback: widget.onCompletedTaskCallBack,
             );
           },
-          itemCount: widget.todoLists.length,
+          itemCount: widget.tasks.length,
         ),
       ),
     );
