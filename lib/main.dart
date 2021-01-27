@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_day2_ex/res/global_configurations.dart';
-import 'package:flutter_day2_ex/ui/todolist_page.dart';
+import 'package:flutter_day2_ex/ui/home_page.dart';
 import 'package:flutter_day2_ex/widget/rounded_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,7 +15,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // bool isDarkMode = true;
+  _handleSwitchDarkTheme() {
+    setState(() {
+      GlobalConfigurations.switchTheme();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +61,7 @@ class _MyAppState extends State<MyApp> {
           centerTitle: true,
           actions: [
             RoundedIconButton(
-              onPressed: () {
-                setState(() {
-                  GlobalConfigurations.isDarkMode = !isDarkMode;
-                });
-              },
+              onPressed: _handleSwitchDarkTheme,
               color: isDarkMode ? Colors.deepPurple : Colors.black87,
               padding: EdgeInsets.all(10),
               icon: Icon(
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
             SizedBox(width: 8),
           ],
         ),
-        body: TodoListPage(),
+        body: HomePage(),
       ),
     );
   }

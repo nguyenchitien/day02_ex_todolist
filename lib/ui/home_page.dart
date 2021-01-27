@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/mock_data/mock_data.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/filter_modes.dart';
@@ -6,14 +6,14 @@ import 'package:flutter_day2_ex/ui/list_tasks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/filter_tabs.dart';
 
-class TodoListPage extends StatefulWidget {
-  const TodoListPage({Key key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key key}) : super(key: key);
 
   @override
-  _TodoListPageState createState() => _TodoListPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _TodoListPageState extends State<TodoListPage> {
+class _HomePageState extends State<HomePage> {
   final originTasks = [...fakeData];
   final filterModes = Utils.listFilterModes;
 

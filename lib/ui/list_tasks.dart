@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/utils/callbacks.dart';
-import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/task_item.dart';
 
 class ListTasks extends StatefulWidget {
@@ -20,8 +19,7 @@ class _ListTasksState extends State<ListTasks> {
   @override
   Widget build(BuildContext context) {
     if (widget.tasks.length == 0) {
-      final height = MediaQuery.of(context).size.height / 2;
-
+      final height = 2 * MediaQuery.of(context).size.height / 3;
       return Container(
         height: height,
         child: Center(
