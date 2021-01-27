@@ -17,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   final originTasks = [...fakeData];
   final filterModes = Utils.listFilterModes;
 
-  var currFilterMode;
-  var currTasks;
+  FilterMode currFilterMode;
+  List<TaskModel> currTasks;
 
   @override
   void initState() {
@@ -71,10 +71,13 @@ class _HomePageState extends State<HomePage> {
           currFilterMode: currFilterMode,
           onSelectFilterMode: _handleSelectedFilterMode,
         ),
-        SizedBox(height: 16),
-        ListTasks(
-          tasks: currTasks,
-          onCompletedTaskCallBack: _handleCompletedTask,
+        SizedBox(height: 24),
+        Expanded(
+          child: ListTasks(
+            title: "${currFilterMode.title}",
+            tasks: currTasks,
+            onCompletedTaskCallBack: _handleCompletedTask,
+          ),
         ),
       ],
     );

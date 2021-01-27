@@ -40,8 +40,8 @@ class _MyAppState extends State<MyApp> {
       backgroundColor:
           isDarkMode ? ThemeData.dark().backgroundColor : Colors.white,
       buttonColor: isDarkMode ? Color(0xff3B3B3B) : Color(0xffF1F5FB),
-      // textSelectionColor: isDarkMode ? Colors.white : Colors.black,
-      // cardColor: isDarkMode ? Color(0xFF151515) : Colors.white,
+      textSelectionColor: isDarkMode ? Colors.white : Colors.black,
+      cardColor: isDarkMode ? Color(0xFF151515) : Colors.white,
       canvasColor: isDarkMode ? ThemeData.dark().canvasColor : Colors.white,
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       appBarTheme: AppBarTheme(
@@ -54,26 +54,21 @@ class _MyAppState extends State<MyApp> {
       theme: themData,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "All Tasks",
-          ),
-          centerTitle: true,
-          actions: [
-            RoundedIconButton(
-              onPressed: _handleSwitchDarkTheme,
-              color: isDarkMode ? Colors.deepPurple : Colors.black87,
-              padding: EdgeInsets.all(10),
-              icon: Icon(
-                FontAwesomeIcons.solidMoon,
-                color: isDarkMode ? Colors.white : Colors.orangeAccent,
-                size: 16,
-              ),
-            ),
-            SizedBox(width: 8),
-          ],
+        body: SafeArea(
+          bottom: false,
+          child: HomePage(),
         ),
-        body: HomePage(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: isDarkMode ? Colors.deepPurple : Colors.black87,
+          onPressed: _handleSwitchDarkTheme,
+          child: RoundedIconButton(
+            icon: Icon(
+              FontAwesomeIcons.solidMoon,
+              color: isDarkMode ? Colors.white : Colors.orangeAccent,
+              size: 20,
+            ),
+          ),
+        ),
       ),
     );
   }

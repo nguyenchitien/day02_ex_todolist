@@ -4,11 +4,15 @@ import 'package:flutter_day2_ex/utils/callbacks.dart';
 import 'package:flutter_day2_ex/widget/task_item.dart';
 
 class ListTasks extends StatefulWidget {
+  final title;
   final List<TaskModel> tasks;
   final CompletedTaskCallback onCompletedTaskCallBack;
 
   const ListTasks(
-      {Key key, @required this.tasks, @required this.onCompletedTaskCallBack})
+      {Key key,
+      @required this.title,
+      @required this.tasks,
+      @required this.onCompletedTaskCallBack})
       : super(key: key);
 
   @override
@@ -28,22 +32,32 @@ class _ListTasksState extends State<ListTasks> {
       );
     }
     return SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final task = widget.tasks[index];
-            return TaskItem(
-              key: UniqueKey(),
-              task: task,
-              onCompletedTaskCallback: widget.onCompletedTaskCallBack,
-            );
-          },
-          itemCount: widget.tasks.length,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "${widget.title} Tasks",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 24),
+          ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final task = widget.tasks[index];
+              return TaskItem(
+                key: UniqueKey(),
+                task: task,
+                onCompletedTaskCallback: widget.onCompletedTaskCallBack,
+              );
+            },
+            itemCount: widget.tasks.length,
+          ),
+        ],
       ),
     );
   }

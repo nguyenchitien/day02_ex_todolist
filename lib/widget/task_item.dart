@@ -59,7 +59,7 @@ class _TaskItemState extends State<TaskItem> {
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: 16, left: 16, right: 16),
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       decoration: BoxDecoration(
         color: isDarkMode ? backgroundColorDark : backgroundColorLight,

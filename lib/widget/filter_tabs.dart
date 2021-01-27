@@ -36,7 +36,7 @@ class FilterTabs extends StatelessWidget {
                     filterMode == currFilterMode ? activeBackgroundColor : null,
                 textColor:
                     filterMode == currFilterMode ? textActiveColor : null,
-                title: filterMode.filterTitle(),
+                title: filterMode.title,
                 onPressed: () {
                   onSelectFilterMode(filterMode);
                 },

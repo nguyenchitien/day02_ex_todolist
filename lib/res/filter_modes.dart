@@ -1,9 +1,11 @@
 enum FilterMode { all, active, completed }
 
 extension FilterModeEx on FilterMode {
-  String filterTitle() {
+  String get title => _getTitle(this);
+
+  String _getTitle(FilterMode filterMode) {
     var title;
-    switch (this) {
+    switch (filterMode) {
       case FilterMode.all:
         title = "All";
         break;
