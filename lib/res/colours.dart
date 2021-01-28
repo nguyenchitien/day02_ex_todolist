@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'global_configurations.dart';
@@ -5,8 +7,14 @@ import 'global_configurations.dart';
 class Colours {
   // FOR APP_THEME
   // status brightness
-  static get statusBrightness =>
+  static get _statusBrightnessAndroid =>
+      GlobalConfigurations.isDarkMode ? Brightness.light : Brightness.dark;
+  static get _statusBrightnessIOS =>
       GlobalConfigurations.isDarkMode ? Brightness.dark : Brightness.light;
+
+  static get statusBrightness =>
+      Platform.isAndroid ? _statusBrightnessAndroid : _statusBrightnessIOS;
+
   static get themeBGColor => GlobalConfigurations.isDarkMode
       ? ThemeData.dark().backgroundColor
       : Colors.white;
