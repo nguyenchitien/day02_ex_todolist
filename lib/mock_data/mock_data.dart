@@ -18,4 +18,5 @@ List<TaskModel> fakeData = [
   TaskModel(title: "Finish dribble marathon"),
   TaskModel(title: "Walk with dog"),
   TaskModel(title: "Do homework"),
+  TaskModel(title: "Cook dinner"),
 ];

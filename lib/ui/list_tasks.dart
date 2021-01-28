@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
-import 'package:flutter_day2_ex/utils/callbacks.dart';
+import 'package:flutter_day2_ex/res/callbacks.dart';
+import 'package:flutter_day2_ex/res/dimens.dart';
+import 'package:flutter_day2_ex/res/styles.dart';
 import 'package:flutter_day2_ex/widget/task_item.dart';
 
 class ListTasks extends StatefulWidget {
@@ -8,12 +10,12 @@ class ListTasks extends StatefulWidget {
   final List<TaskModel> tasks;
   final CompletedTaskCallback onCompletedTaskCallBack;
 
-  const ListTasks(
-      {Key key,
-      @required this.title,
-      @required this.tasks,
-      @required this.onCompletedTaskCallBack})
-      : super(key: key);
+  const ListTasks({
+    Key key,
+    @required this.title,
+    @required this.tasks,
+    @required this.onCompletedTaskCallBack,
+  }) : super(key: key);
 
   @override
   _ListTasksState createState() => _ListTasksState();
@@ -32,17 +34,18 @@ class _ListTasksState extends State<ListTasks> {
       );
     }
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: Dimens.gap_dp16),
             child: Text(
               "${widget.title} Tasks",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: Styles.headingTitle,
             ),
           ),
-          SizedBox(height: 24),
+          Gaps.vGap24,
           ListView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,

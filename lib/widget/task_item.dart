@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
+import 'package:flutter_day2_ex/res/callbacks.dart';
+import 'package:flutter_day2_ex/res/dimens.dart';
 import 'package:flutter_day2_ex/res/global_configurations.dart';
-import 'package:flutter_day2_ex/utils/callbacks.dart';
-import 'package:flutter_day2_ex/utils/utils.dart';
-import 'package:flutter_day2_ex/widget/rounded_checbox.dart';
+import 'package:flutter_day2_ex/res/styles.dart';
+import 'package:flutter_day2_ex/widget/rounded_checkbox.dart';
 
 class TaskItem extends StatefulWidget {
   const TaskItem({
@@ -42,25 +43,24 @@ class _TaskItemState extends State<TaskItem> {
 
     // TODO: Need refactor colors with ThemData
     final textDecoration = isChecked ? TextDecoration.lineThrough : null;
+    final textStyle = isChecked ? Styles.completedTaskTitle : Styles.activeTaskTitle;
+
     final backgroundColorDark = isChecked ? Colors.black26 : Colors.black;
     final backgroundColorLight = Colors.white;
 
-    final borderColorLight =
-        isChecked ? Colors.grey.withOpacity(0) : Colors.transparent;
+    final borderColorLight = isChecked ? Colors.grey.withOpacity(0) : Colors.transparent;
     final borderColor = isDarkMode ? Colors.transparent : borderColorLight;
 
     var shadowColor;
     if (isDarkMode) {
       shadowColor = Colors.black.withOpacity(0.2);
     } else {
-      shadowColor = isChecked
-          ? Colors.grey.withOpacity(0.2)
-          : Colors.black.withOpacity(0.25);
+      shadowColor = isChecked ? Colors.grey.withOpacity(0.5) : Colors.black.withOpacity(0.25);
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: 16, left: 16, right: 16),
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+      margin: EdgeInsets.only(bottom: Dimens.gap_dp16, left: Dimens.gap_dp16, right: Dimens.gap_dp16),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.gap_dp24, vertical: Dimens.gap_dp8),
       decoration: BoxDecoration(
         color: isDarkMode ? backgroundColorDark : backgroundColorLight,
         borderRadius: BorderRadius.circular(50),
@@ -76,10 +76,18 @@ class _TaskItemState extends State<TaskItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.task.title,
-            style: TextStyle(fontSize: 16, decoration: textDecoration),
+          // Wrap Expanded -> Container -> Text for textOverflow
+          Expanded(
+            child: Container(
+              child: Text(
+                widget.task.title,
+                style: textStyle.copyWith(decoration: textDecoration),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
+          Gaps.hGap8,
           RoundedCheckbox(value: isChecked, onChanged: _onChecked),
         ],
       ),

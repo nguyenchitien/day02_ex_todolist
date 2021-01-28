@@ -1,3 +1,5 @@
+import 'package:flutter_day2_ex/res/strings.dart';
+
 enum FilterMode { all, active, completed }
 
 extension FilterModeEx on FilterMode {
@@ -7,13 +9,13 @@ extension FilterModeEx on FilterMode {
     var title;
     switch (filterMode) {
       case FilterMode.all:
-        title = "All";
+        title = Strings.allTaskTitle;
         break;
       case FilterMode.active:
-        title = "Active";
+        title = Strings.activeTaskTitle;
         break;
       case FilterMode.completed:
-        title = "Completed";
+        title = Strings.completedTaskTitle;
         break;
     }
     return title;

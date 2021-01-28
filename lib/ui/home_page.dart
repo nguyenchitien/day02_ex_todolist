@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_day2_ex/mock_data/mock_data.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
+import 'package:flutter_day2_ex/res/dimens.dart';
 import 'package:flutter_day2_ex/res/filter_modes.dart';
 import 'package:flutter_day2_ex/ui/list_tasks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
@@ -65,13 +66,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 16),
+        Gaps.vGap24,
         FilterTabs(
           listFilters: filterModes,
           currFilterMode: currFilterMode,
           onSelectFilterMode: _handleSelectedFilterMode,
         ),
-        SizedBox(height: 24),
+        Gaps.vGap24,
         Expanded(
           child: ListTasks(
             title: "${currFilterMode.title}",

@@ -1,7 +1,9 @@
 class GlobalConfigurations {
-  static bool isDarkMode = false;
+  static bool _isDarkMode = false;
+
+  static bool get isDarkMode => _isDarkMode;
 
   static void switchTheme() {
-    GlobalConfigurations.isDarkMode = !GlobalConfigurations.isDarkMode;
+    _isDarkMode = !_isDarkMode;
   }
 }

@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_day2_ex/res/colours.dart';
 import 'package:flutter_day2_ex/res/filter_modes.dart';
-import 'package:flutter_day2_ex/res/global_configurations.dart';
 
 class FilterTabs extends StatelessWidget {
   final FilterMode currFilterMode;
   final List<FilterMode> listFilters;
   final ValueChanged<FilterMode> onSelectFilterMode;
 
-  const FilterTabs(
-      {Key key, this.currFilterMode, this.listFilters, this.onSelectFilterMode})
-      : super(key: key);
+  const FilterTabs({Key key, this.currFilterMode, this.listFilters, this.onSelectFilterMode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = GlobalConfigurations.isDarkMode;
-
-    final textActiveColor =
-        isDarkMode ? Colors.deepOrangeAccent : Colors.lightBlue;
-    final activeBackgroundColor = isDarkMode ? Colors.black : Colors.white;
-
     return Container(
       height: 40,
       decoration: BoxDecoration(
@@ -32,10 +24,8 @@ class FilterTabs extends StatelessWidget {
         children: listFilters
             .map(
               (filterMode) => _buildTabItem(
-                color:
-                    filterMode == currFilterMode ? activeBackgroundColor : null,
-                textColor:
-                    filterMode == currFilterMode ? textActiveColor : null,
+                color: filterMode == currFilterMode ? Colours.activeTabBGColor : null,
+                textColor: filterMode == currFilterMode ? Colours.filterTabActiveColor : null,
                 title: filterMode.title,
                 onPressed: () {
                   onSelectFilterMode(filterMode);
@@ -47,8 +37,7 @@ class FilterTabs extends StatelessWidget {
     );
   }
 
-  Widget _buildTabItem(
-      {Color color, String title, Function onPressed, textColor}) {
+  Widget _buildTabItem({Color color, String title, Function onPressed, textColor}) {
     return FlatButton(
       height: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16),
