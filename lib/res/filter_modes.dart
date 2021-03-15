@@ -1,6 +1,6 @@
 import 'package:flutter_day2_ex/res/strings.dart';
 
-enum FilterMode { all, active, completed }
+enum FilterMode { all, active, completed, exp }
 
 extension FilterModeEx on FilterMode {
   String get title => _getTitle(this);
@@ -16,6 +16,9 @@ extension FilterModeEx on FilterMode {
         break;
       case FilterMode.completed:
         title = Strings.completedTaskTitle;
+        break;
+      default:
+        title = Strings.expTitle;
         break;
     }
     return title;

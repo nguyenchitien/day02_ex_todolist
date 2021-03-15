@@ -43,24 +43,32 @@ class _TaskItemState extends State<TaskItem> {
 
     // TODO: Need refactor colors with ThemData
     final textDecoration = isChecked ? TextDecoration.lineThrough : null;
-    final textStyle = isChecked ? Styles.completedTaskTitle : Styles.activeTaskTitle;
+    final textStyle =
+        isChecked ? Styles.completedTaskTitle : Styles.activeTaskTitle;
 
     final backgroundColorDark = isChecked ? Colors.black26 : Colors.black;
     final backgroundColorLight = Colors.white;
 
-    final borderColorLight = isChecked ? Colors.grey.withOpacity(0) : Colors.transparent;
+    final borderColorLight =
+        isChecked ? Colors.grey.withOpacity(0) : Colors.transparent;
     final borderColor = isDarkMode ? Colors.transparent : borderColorLight;
 
     var shadowColor;
     if (isDarkMode) {
       shadowColor = Colors.black.withOpacity(0.2);
     } else {
-      shadowColor = isChecked ? Colors.grey.withOpacity(0.5) : Colors.black.withOpacity(0.25);
+      shadowColor = isChecked
+          ? Colors.grey.withOpacity(0.5)
+          : Colors.black.withOpacity(0.25);
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: Dimens.gap_dp16, left: Dimens.gap_dp16, right: Dimens.gap_dp16),
-      padding: EdgeInsets.symmetric(horizontal: Dimens.gap_dp24, vertical: Dimens.gap_dp8),
+      margin: EdgeInsets.only(
+          bottom: Dimens.gap_dp16,
+          left: Dimens.gap_dp16,
+          right: Dimens.gap_dp16),
+      padding: EdgeInsets.symmetric(
+          horizontal: Dimens.gap_dp24, vertical: Dimens.gap_dp8),
       decoration: BoxDecoration(
         color: isDarkMode ? backgroundColorDark : backgroundColorLight,
         borderRadius: BorderRadius.circular(50),
@@ -78,13 +86,18 @@ class _TaskItemState extends State<TaskItem> {
         children: [
           // Wrap Expanded -> Container -> Text for textOverflow
           Expanded(
-            child: Container(
-              child: Text(
-                widget.task.title,
-                style: textStyle.copyWith(decoration: textDecoration),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+            child: Column(
+              children: [
+                Container(
+                  child: Text(
+                    widget.task.title,
+                    style: textStyle.copyWith(decoration: textDecoration),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                _buildExpTime(),
+              ],
             ),
           ),
           Gaps.hGap8,
@@ -92,5 +105,19 @@ class _TaskItemState extends State<TaskItem> {
         ],
       ),
     );
+  }
+
+  Widget _buildExpTime() {
+    final task = widget.task;
+    if (task.isOutExpTime()) {
+      return Column(
+        children: [
+          Gaps.vGap8,
+          Text("Exp date"),
+        ],
+      );
+    }
+
+    return SizedBox();
   }
 }

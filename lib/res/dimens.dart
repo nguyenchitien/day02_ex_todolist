@@ -23,6 +23,7 @@ class Gaps {
   static Widget hGap32 = new SizedBox(width: Dimens.gap_dp32);
 
   /// vertical
+  static Widget vGap8 = new SizedBox(height: Dimens.gap_dp8);
   static Widget vGap16 = new SizedBox(height: Dimens.gap_dp16);
   static Widget vGap24 = new SizedBox(height: Dimens.gap_dp24);
   static Widget vGap32 = new SizedBox(height: Dimens.gap_dp32);

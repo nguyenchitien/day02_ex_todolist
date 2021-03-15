@@ -31,10 +31,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   _handleSelectedFilterMode(FilterMode filterMode) {
-    setState(() {
-      currFilterMode = filterMode;
-      _refreshCurrTasks(filterMode);
-    });
+    if (filterMode != currFilterMode) {
+      setState(() {
+        currFilterMode = filterMode;
+        _refreshCurrTasks(filterMode);
+      });
+    }
   }
 
   _refreshCurrTasks(FilterMode filterMode) {
