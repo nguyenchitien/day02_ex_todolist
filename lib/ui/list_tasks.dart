@@ -23,6 +23,12 @@ class ListTasks extends StatefulWidget {
 
 class _ListTasksState extends State<ListTasks> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.tasks.length == 0) {
       final height = 2 * MediaQuery.of(context).size.height / 3;

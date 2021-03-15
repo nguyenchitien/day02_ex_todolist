@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_day2_ex/bloc/exp_timer_bloc.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/callbacks.dart';
 import 'package:flutter_day2_ex/res/dimens.dart';
@@ -22,12 +23,14 @@ class TaskItem extends StatefulWidget {
 
 class _TaskItemState extends State<TaskItem> {
   bool isChecked;
+  ExpTimeBloc expTimeTickerBloc;
 
   @override
   void initState() {
     super.initState();
 
     isChecked = widget.task.isCompleted;
+    expTimeTickerBloc = kExpTimeTickerBloc;
   }
 
   void _onChecked() {
@@ -118,6 +121,9 @@ class _TaskItemState extends State<TaskItem> {
       );
     }
 
-    return SizedBox();
+    return StreamBuilder(
+      stream: expTimeTickerBloc.ticker,
+      builder: (context, snapshot) {},
+    );
   }
 }
