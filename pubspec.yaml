@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   font_awesome_flutter: ^8.11.0
   rxdart: ^0.26.0
+  fab_circular_menu: ^1.0.1
 
 dev_dependencies:
   flutter_test:

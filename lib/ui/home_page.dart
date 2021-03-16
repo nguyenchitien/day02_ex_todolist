@@ -45,7 +45,9 @@ class _HomePageState extends State<HomePage> {
 
   _refreshCurrTasks(FilterMode filterMode) {
     if (filterMode == FilterMode.active) {
-      currTasks = originTasks.where((task) => !task.isCompleted).toList();
+      currTasks = originTasks
+          .where((task) => !task.isCompleted && !task.isOutExpTime())
+          .toList();
     } else if (filterMode == FilterMode.completed) {
       currTasks = originTasks.where((task) => task.isCompleted).toList();
     } else if (filterMode == FilterMode.exp) {

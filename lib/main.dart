@@ -1,3 +1,4 @@
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_day2_ex/res/colours.dart';
@@ -9,9 +10,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'res/global_configurations.dart';
 
 void main() {
-  runApp(
-    MyApp(),
-  );
+  runApp(MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -20,10 +21,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  _handleSwitchDarkTheme() {
-    setState(() {
-      GlobalConfigurations.switchTheme();
-    });
+  final titleTextEditing = TextEditingController();
+  final expTimeTextEditing = TextEditingController();
+
+  @override
+  void dispose() {
+    titleTextEditing.dispose();
+    expTimeTextEditing.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -51,26 +57,57 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    return MaterialApp(
-      theme: appTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SafeArea(
-          bottom: false,
-          child: HomePage(),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colours.switchThemBtnBG,
-          onPressed: _handleSwitchDarkTheme,
-          child: RoundedIconButton(
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: HomePage(),
+      ),
+      floatingActionButton: FabCircularMenu(
+        fabSize: 40,
+        ringWidth: 40,
+        ringDiameter: 130,
+        ringColor: Colours.switchThemBtnBG,
+        children: <Widget>[
+          RoundedIconButton(
+            padding: EdgeInsets.all(8),
             icon: Icon(
               FontAwesomeIcons.solidMoon,
               color: Colours.switchThemeIconColor,
               size: 20,
             ),
+            onPressed: _handleSwitchDarkTheme,
           ),
-        ),
+          RoundedIconButton(
+            padding: EdgeInsets.all(8),
+            icon: Icon(
+              Icons.add,
+              color: Colours.switchThemeIconColor,
+              size: 24,
+            ),
+            onPressed: _handleAddNewTask,
+          ),
+        ],
       ),
+    );
+  }
+
+  _handleSwitchDarkTheme() {
+    setState(() {
+      GlobalConfigurations.switchTheme();
+    });
+  }
+
+  _handleAddNewTask() {
+    var alert = AlertDialog(
+      title: Text("Test"),
+      content: Text("Done..!"),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return alert;
+      },
     );
   }
 }
