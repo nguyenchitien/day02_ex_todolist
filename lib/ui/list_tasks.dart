@@ -5,16 +5,21 @@ import 'package:flutter_day2_ex/res/dimens.dart';
 import 'package:flutter_day2_ex/res/styles.dart';
 import 'package:flutter_day2_ex/widget/task_item.dart';
 
+import '../bloc/exp_timer_bloc.dart';
+import '../models/task_model.dart';
+
 class ListTasks extends StatefulWidget {
   final title;
   final List<TaskModel> tasks;
   final CompletedTaskCallback onCompletedTaskCallBack;
+  final Function(TaskModel, int) onReduceExpTime;
 
   const ListTasks({
     Key key,
     @required this.title,
     @required this.tasks,
     @required this.onCompletedTaskCallBack,
+    this.onReduceExpTime,
   }) : super(key: key);
 
   @override
@@ -24,8 +29,17 @@ class ListTasks extends StatefulWidget {
 class _ListTasksState extends State<ListTasks> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      kExpTickerBloc.startTicker();
+    });
+  }
+
+  @override
+  void dispose() {
+    kExpTickerBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,6 +76,7 @@ class _ListTasksState extends State<ListTasks> {
                 key: UniqueKey(),
                 task: task,
                 onCompletedTaskCallback: widget.onCompletedTaskCallBack,
+                onReduceExpTime: widget.onReduceExpTime,
               );
             },
             itemCount: widget.tasks.length,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_day2_ex/bloc/exp_timer_bloc.dart';
 import 'package:flutter_day2_ex/mock_data/mock_data.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/dimens.dart';
@@ -6,6 +7,9 @@ import 'package:flutter_day2_ex/res/filter_modes.dart';
 import 'package:flutter_day2_ex/ui/list_tasks.dart';
 import 'package:flutter_day2_ex/utils/utils.dart';
 import 'package:flutter_day2_ex/widget/filter_tabs.dart';
+
+import '../models/task_model.dart';
+import '../res/filter_modes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -44,6 +48,10 @@ class _HomePageState extends State<HomePage> {
       currTasks = originTasks.where((task) => !task.isCompleted).toList();
     } else if (filterMode == FilterMode.completed) {
       currTasks = originTasks.where((task) => task.isCompleted).toList();
+    } else if (filterMode == FilterMode.exp) {
+      currTasks = originTasks
+          .where((task) => task.isOutExpTime() && !task.isCompleted)
+          .toList();
     } else {
       currTasks = originTasks;
     }
@@ -64,6 +72,18 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  _handleReduceExpTime(TaskModel task, int reduceTime) {
+    int index = originTasks.indexOf(task);
+    task.reduceExpTime(reduceTime);
+    originTasks[index] = task;
+
+    bool needExpTicker =
+        originTasks.where((task) => !task.isOutExpTime()).toList().isEmpty;
+    if (needExpTicker) {
+      kExpTickerBloc.stopTicker();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -80,6 +100,7 @@ class _HomePageState extends State<HomePage> {
             title: "${currFilterMode.title}",
             tasks: currTasks,
             onCompletedTaskCallBack: _handleCompletedTask,
+            onReduceExpTime: _handleReduceExpTime,
           ),
         ),
       ],

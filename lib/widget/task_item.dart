@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_day2_ex/bloc/exp_timer_bloc.dart';
 import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/callbacks.dart';
 import 'package:flutter_day2_ex/res/dimens.dart';
@@ -7,15 +6,21 @@ import 'package:flutter_day2_ex/res/global_configurations.dart';
 import 'package:flutter_day2_ex/res/styles.dart';
 import 'package:flutter_day2_ex/widget/rounded_checkbox.dart';
 
+import '../bloc/exp_timer_bloc.dart';
+import '../models/task_model.dart';
+import '../utils/utils.dart';
+
 class TaskItem extends StatefulWidget {
-  const TaskItem({
-    Key key,
-    @required this.task,
-    @required this.onCompletedTaskCallback,
-  }) : super(key: key);
+  const TaskItem(
+      {Key key,
+      @required this.task,
+      @required this.onCompletedTaskCallback,
+      this.onReduceExpTime})
+      : super(key: key);
 
   final TaskModel task;
   final CompletedTaskCallback onCompletedTaskCallback;
+  final Function(TaskModel, int) onReduceExpTime;
 
   @override
   _TaskItemState createState() => _TaskItemState();
@@ -23,14 +28,12 @@ class TaskItem extends StatefulWidget {
 
 class _TaskItemState extends State<TaskItem> {
   bool isChecked;
-  ExpTimeBloc expTimeTickerBloc;
 
   @override
   void initState() {
     super.initState();
 
     isChecked = widget.task.isCompleted;
-    expTimeTickerBloc = kExpTimeTickerBloc;
   }
 
   void _onChecked() {
@@ -90,6 +93,7 @@ class _TaskItemState extends State<TaskItem> {
           // Wrap Expanded -> Container -> Text for textOverflow
           Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   child: Text(
@@ -104,7 +108,8 @@ class _TaskItemState extends State<TaskItem> {
             ),
           ),
           Gaps.hGap8,
-          RoundedCheckbox(value: isChecked, onChanged: _onChecked),
+          RoundedCheckbox(
+              value: isChecked, onChanged: !isChecked ? _onChecked : null),
         ],
       ),
     );
@@ -112,18 +117,38 @@ class _TaskItemState extends State<TaskItem> {
 
   Widget _buildExpTime() {
     final task = widget.task;
-    if (task.isOutExpTime()) {
-      return Column(
-        children: [
-          Gaps.vGap8,
-          Text("Exp date"),
-        ],
-      );
+    if (isChecked) {
+      return SizedBox();
     }
 
     return StreamBuilder(
-      stream: expTimeTickerBloc.ticker,
-      builder: (context, snapshot) {},
+      stream: kExpTickerBloc.ticker,
+      builder: (context, snapshot) {
+        widget.onReduceExpTime(task, snapshot.data);
+        if (snapshot.hasData && task.isOutExpTime()) {
+          return Column(
+            children: [
+              Gaps.vGap8,
+              Text(
+                "Exp date",
+                style: TextStyle(fontSize: 12, color: Colors.red),
+              ),
+            ],
+          );
+        }
+
+        return Column(
+          children: [
+            Gaps.vGap8,
+            Text(
+              "${Utils.formatExpTime(task.remainTime)} minutes",
+              style: task.remainTime < 10
+                  ? TextStyle(fontSize: 12, color: Colors.red)
+                  : TextStyle(fontSize: 12),
+            ),
+          ],
+        );
+      },
     );
   }
 }

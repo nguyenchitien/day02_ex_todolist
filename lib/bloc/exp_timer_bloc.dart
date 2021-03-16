@@ -2,25 +2,32 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 
-class ExpTimeBloc {
-  BehaviorSubject<int> _tickController;
+class ExpTickerBloc {
+  BehaviorSubject<int> _tickerController;
+  Timer _timerTicker;
+  int _currentTime = 0;
 
-  ExpTimeBloc() {
-    _tickController = BehaviorSubject.seeded(1);
+  ExpTickerBloc() {
+    _tickerController = BehaviorSubject.seeded(0);
+  }
 
-    // run ticker timer
-    const oneSec = const Duration(seconds: 1);
-    Timer.periodic(
-      oneSec,
-      (Timer t) => _tickController.add(1),
+  Stream<int> get ticker => _tickerController.stream;
+
+  void startTicker() {
+    _timerTicker = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer t) => _tickerController.add(++_currentTime),
     );
   }
 
-  Stream<int> get ticker => _tickController.stream;
+  void stopTicker() {
+    _timerTicker.cancel();
+  }
 
   void dispose() {
-    _tickController.close();
+    _tickerController.close();
+    _timerTicker.cancel();
   }
 }
 
-final kExpTimeTickerBloc = ExpTimeBloc();
+final kExpTickerBloc = ExpTickerBloc();
