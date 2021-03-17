@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_day2_ex/bloc/exp_timer_bloc.dart';
 
 class TaskModel {
   final String _title;
@@ -21,15 +22,16 @@ class TaskModel {
   }
 
   void reduceExpTime(int reduceTime) {
-    if (reduceTime != null) {
-      _reduceTime = reduceTime;
-    } else {
+    if (reduceTime == ExpTickerBloc.RESET_VALUE) {
+      _expTime -= _reduceTime;
       _reduceTime = 0;
+    } else {
+      _reduceTime = reduceTime;
     }
   }
 
   bool isOutExpTime() {
-    return _expTime == _reduceTime || _reduceTime > _expTime ? true : false;
+    return _expTime <= _reduceTime ? true : false;
   }
 
   int get remainTime => _expTime - _reduceTime;

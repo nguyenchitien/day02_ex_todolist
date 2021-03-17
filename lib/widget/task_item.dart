@@ -11,16 +11,16 @@ import '../models/task_model.dart';
 import '../utils/utils.dart';
 
 class TaskItem extends StatefulWidget {
-  const TaskItem(
-      {Key key,
-      @required this.task,
-      @required this.onCompletedTaskCallback,
-      this.onReduceExpTime})
-      : super(key: key);
+  const TaskItem({
+    Key key,
+    @required this.task,
+    @required this.onCompletedTaskCallback,
+    this.onReduceExpTimeCallback,
+  }) : super(key: key);
 
   final TaskModel task;
   final CompletedTaskCallback onCompletedTaskCallback;
-  final Function(TaskModel, int) onReduceExpTime;
+  final ReduceExpTimeCallback onReduceExpTimeCallback;
 
   @override
   _TaskItemState createState() => _TaskItemState();
@@ -124,13 +124,15 @@ class _TaskItemState extends State<TaskItem> {
     return StreamBuilder(
       stream: kExpTickerBloc.ticker,
       builder: (context, snapshot) {
-        widget.onReduceExpTime(task, snapshot.data);
+        if (snapshot.hasData && snapshot.data != null) {
+          widget.onReduceExpTimeCallback(task, snapshot.data);
+        }
         if (snapshot.hasData && task.isOutExpTime()) {
           return Column(
             children: [
               Gaps.vGap8,
               Text(
-                "Exp date",
+                "Expired",
                 style: TextStyle(fontSize: 12, color: Colors.red),
               ),
             ],

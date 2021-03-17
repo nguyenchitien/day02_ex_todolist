@@ -12,14 +12,14 @@ class ListTasks extends StatefulWidget {
   final title;
   final List<TaskModel> tasks;
   final CompletedTaskCallback onCompletedTaskCallBack;
-  final Function(TaskModel, int) onReduceExpTime;
+  final ReduceExpTimeCallback onReduceExpTimeCallback;
 
   const ListTasks({
     Key key,
     @required this.title,
     @required this.tasks,
     @required this.onCompletedTaskCallBack,
-    this.onReduceExpTime,
+    this.onReduceExpTimeCallback,
   }) : super(key: key);
 
   @override
@@ -76,7 +76,7 @@ class _ListTasksState extends State<ListTasks> {
                 key: UniqueKey(),
                 task: task,
                 onCompletedTaskCallback: widget.onCompletedTaskCallBack,
-                onReduceExpTime: widget.onReduceExpTime,
+                onReduceExpTimeCallback: widget.onReduceExpTimeCallback,
               );
             },
             itemCount: widget.tasks.length,

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:rxdart/rxdart.dart';
 
 class ExpTickerBloc {
+  static const RESET_VALUE = -1;
+
   BehaviorSubject<int> _tickerController;
   Timer _timerTicker;
   int _currentTime = 0;
@@ -18,6 +20,13 @@ class ExpTickerBloc {
       Duration(seconds: 1),
       (Timer t) => _tickerController.add(++_currentTime),
     );
+  }
+
+  void refreshTicker() {
+    stopTicker();
+    _tickerController.add(ExpTickerBloc.RESET_VALUE);
+    _currentTime = 0;
+    kExpTickerBloc.startTicker();
   }
 
   void stopTicker() {

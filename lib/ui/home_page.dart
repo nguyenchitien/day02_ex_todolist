@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final originTasks = [...fakeData];
+  final originTasks = fakeData;
   final filterModes = Utils.listFilterModes;
 
   FilterMode currFilterMode;
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
             title: "${currFilterMode.title}",
             tasks: currTasks,
             onCompletedTaskCallBack: _handleCompletedTask,
-            onReduceExpTime: _handleReduceExpTime,
+            onReduceExpTimeCallback: _handleReduceExpTime,
           ),
         ),
       ],

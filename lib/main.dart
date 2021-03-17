@@ -1,6 +1,9 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_day2_ex/bloc/exp_timer_bloc.dart';
+import 'package:flutter_day2_ex/mock_data/mock_data.dart';
+import 'package:flutter_day2_ex/models/task_model.dart';
 import 'package:flutter_day2_ex/res/colours.dart';
 import 'package:flutter_day2_ex/res/global_configurations.dart';
 import 'package:flutter_day2_ex/ui/home_page.dart';
@@ -57,36 +60,40 @@ class _MyAppState extends State<MyApp> {
       ),
     );
 
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: HomePage(),
-      ),
-      floatingActionButton: FabCircularMenu(
-        fabSize: 40,
-        ringWidth: 40,
-        ringDiameter: 130,
-        ringColor: Colours.switchThemBtnBG,
-        children: <Widget>[
-          RoundedIconButton(
-            padding: EdgeInsets.all(8),
-            icon: Icon(
-              FontAwesomeIcons.solidMoon,
-              color: Colours.switchThemeIconColor,
-              size: 20,
+    return MaterialApp(
+      theme: appTheme,
+      home: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SafeArea(
+          bottom: false,
+          child: HomePage(),
+        ),
+        floatingActionButton: FabCircularMenu(
+          fabSize: 40,
+          ringWidth: 40,
+          ringDiameter: 130,
+          ringColor: Colours.switchThemBtnBG,
+          children: <Widget>[
+            RoundedIconButton(
+              padding: EdgeInsets.all(8),
+              icon: Icon(
+                FontAwesomeIcons.solidMoon,
+                color: Colours.switchThemeIconColor,
+                size: 20,
+              ),
+              onPressed: _handleSwitchDarkTheme,
             ),
-            onPressed: _handleSwitchDarkTheme,
-          ),
-          RoundedIconButton(
-            padding: EdgeInsets.all(8),
-            icon: Icon(
-              Icons.add,
-              color: Colours.switchThemeIconColor,
-              size: 24,
+            RoundedIconButton(
+              padding: EdgeInsets.all(8),
+              icon: Icon(
+                Icons.add,
+                color: Colours.switchThemeIconColor,
+                size: 24,
+              ),
+              onPressed: _showAddNewTaskDialog,
             ),
-            onPressed: _handleAddNewTask,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -97,17 +104,57 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  _handleAddNewTask() {
+  _showAddNewTaskDialog() async {
     var alert = AlertDialog(
-      title: Text("Test"),
-      content: Text("Done..!"),
+      title: Text("Add new task"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: titleTextEditing,
+            decoration: InputDecoration(
+              labelText: "Title",
+            ),
+          ),
+          TextField(
+            controller: expTimeTextEditing,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: "Time",
+              suffixText: "minutes",
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _handleAddNewTask,
+          child: Text("Add"),
+        ),
+      ],
     );
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) {
         return alert;
       },
     );
+
+    titleTextEditing.text = "";
+    expTimeTextEditing.text = "";
+  }
+
+  _handleAddNewTask() {
+    final title = titleTextEditing.text;
+    final minutes = int.tryParse(expTimeTextEditing.text);
+
+    if (title.isNotEmpty && minutes != null) {
+      setState(() {
+        fakeData.add(TaskModel(title: title, expTime: minutes));
+        kExpTickerBloc.refreshTicker();
+        Navigator.pop(context);
+      });
+    }
   }
 }
