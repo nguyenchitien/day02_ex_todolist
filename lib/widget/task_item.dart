@@ -143,7 +143,7 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             Gaps.vGap8,
             Text(
-              "${Utils.formatExpTime(task.remainTime)} minutes",
+              "Time left ${Utils.formatExpTime(task.remainTime)}",
               style: task.remainTime < 10
                   ? TextStyle(fontSize: 12, color: Colors.red)
                   : TextStyle(fontSize: 12),
